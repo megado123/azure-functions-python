@@ -11,8 +11,8 @@ os.environ["DOCDB_KEY"] = 'ZvHF3rrP2qaNQ6Yri5rjkKpVTBPNTq2iJ1k28EMBSne4DkSXscNTJ
 # and the file path is exposed as an environment variable
 with open(os.environ["REQ"]) as req:
     details = json.loads(req.read())
-    
- print(details)
+     print(details)    
+
 
 # note that there's no init for functions, so this will be
 # executed everytime the function is triggered :(
