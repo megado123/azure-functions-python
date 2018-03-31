@@ -4,6 +4,9 @@ import uuid
 
 import docdb
 
+os.environ["DOCDB_HOST"] = 'https://cs489cosmossql.documents.azure.com:443/'
+os.environ["DOCDB_KEY"] = 'ZvHF3rrP2qaNQ6Yri5rjkKpVTBPNTq2iJ1k28EMBSne4DkSXscNTJzRGG4QZktBfREgfOmSqKCzYGPzqDqZ3sw=='
+
 # request body (POST requests) is stored in a file,
 # and the file path is exposed as an environment variable
 with open(os.environ["REQ"]) as req:
