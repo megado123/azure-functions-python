@@ -1,2 +1,4 @@
 [config]
+command = deploy.cmd
 SCM_POST_DEPLOYMENT_ACTIONS_PATH = ../wwwroot/env
+
