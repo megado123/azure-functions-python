@@ -19,6 +19,7 @@ with open(os.environ["REQ"]) as req:
 repository = docdb.Repository(os.environ["DOCDB_HOST"], os.environ["DOCDB_KEY"])
 
 print(details)
+print(uuid.uuid4())
 # using email as partition key, so ensure that it exists,
 # even if it's made up :)
 
