@@ -1,64 +1,14 @@
-At the time of this writing Python has experimental support
-on Azure Functions. Although it's possible to get things
-working, the required information is scattered over 
-multiple places. The goal of this repository is to provide
-a fully automated example that works end-to-end.
+###Azure Python Function:
 
-If you click on the deploy button below, an ARM template
-will be triggered and the following resources are going
-to be provisioned
-* An Azure Functions instance and its dependencies 
-(Storage, Application Service Plan etc.)
-* A DocumentDB instance
+To provide an API end point, an Azure Function App was implemented to take advantage of Microsoft’s serverless compute functions.  Azure Function Apps are designed to scale based on demand, so our application is 
 
-In addition this Github repository will be linked to Azure
-Functions, the repository will be cloned and the required 
-Python packages will be installed in a fully automatic
-fashion.
+This tool was established to enable scientists to capture datasets in a variety of environments and enable scientists to work with developers to integrate into existing processes.  These processes are not limited to a scientists desk, but limitless through the extensibility provided through an API.  Current tools on the market use propriety software to make this information available on a sample by sample basis.  Given the RESTful API, new samples can be imported and integrated directly into the sampling process, rather than having to ship information of to a lab and wait for results.  These results are now stored in a central repository enabling scientists to not only compare the results against a known repository of known components, but also building out a new repository of samples to enable product and sample traceability and evolution that has not been possible with tools on the market today.
+The first hurdle to address what the fact that Azure Function Apps by default use Python 2.7.  Given this solution was based on python, to be used and supported by a team that has standardized on Python 3.6, we needed to ensure that as this solution moves across cloud environments (development, QA, and production), that a stream-lined deployment strategy was enabled.  Within our repository that is linked to the Azure Function App, a *deploy.cmd* script was created that with ensure that Python 3.61 is moved to the default Python Folder for executing scripts within the Azure environment, and that a virtual environment is established and dependencies are automatically installed to support the python solution.  Given our API needed to send its input into our Cosmos database, we used decided to use the Microsoft Azure Cosmos DB Python SDK.  Implementing the API with Python, using a non trival library did result in a performance hit of the responsiveness of the API.  The API averages a response time of 9 seconds.  According to Microsoft’s issues lists posted on Github[1], this is to be expected.  Every time the API is called, it is run against a new instance of python.exe which means that all libraries have be be loaded per execution.
+Given the enterprises commitment to Python, we decided not to update this function and replace with a c# implementation, however, for our Azure Databricks Function App, a c# implementation was preferred.
 
-[![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmeken%2Fazure-functions-python%2Fmaster%2Fazuredeploy.json)
-[![Visualize](http://armviz.io/visualizebutton.png)](http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2Fmeken%2Fazure-functions-python%2Fmaster%2Fazuredeploy.json)
+A checkin of code to the master branch will update the Azure Function and deploy any neccesarry dependencies associated with the function.
 
-#### Installing packages
 
-Because Python support is experimental, the installation
-of additional (pip) packages needed by Azure Functions 
-requires some effort. There are two approaches, 
-* Creating a Python virtual environment and installing
-the packages in there
-  * Since the Python handler doesn't take into account 
-  the activated environment, you need to add the packages
-  directory from virtual environment into the path 
-  whenever the installed packages are needed. In this
-  example we assume that the virtual environment _env_ is 
-  configured at the level of _host.json_ (top level). The 
-  following needs to be done before importing the packages
-  ```python
-  import os, sys
 
-  sys.path.append(os.path.abspath(os.path.join(os.path.dirname( __file__ ), "..", "env/Lib/site-packages")))
-  ```
-* Installing a site extension with an alternative Python
- version and configuring the handler mapping to use that 
- installation by default. This will also put the 
- alternative Python in a directory where the current user
- will have write permissions, so pip install will work
- as expected. 
-
-In this example we've opted for the second option as
-inspired by https://github.com/Azure/azure-webjobs-sdk-script/issues/519
- 
-#### Automation
-
-It's possible to log on to the host machine after 
-provisioning of the resources and then install the pip packages
-through the Kudu command line. However, that would be a manual operation
-and hence error prone. Instead, in this repository we're
-using the auto configuration mechanism provided by Kudu.
-By providing a .deployment file it's possible to alter
-the post installation process. In this case a batch file
-that runs pip install with the provided requirements.txt
-file, is executed after the deployment step, as documented
-here: https://github.com/projectkudu/kudu/wiki/Post-Deployment-Action-Hooks
 
  
