@@ -1,4 +1,4 @@
-###Azure Python Function:
+### Azure Python Function:
 
 To provide an API end point, an Azure Function App was implemented to take advantage of Microsoft’s serverless compute functions.  Azure Function Apps are designed to scale based on demand, so our application is 
 
